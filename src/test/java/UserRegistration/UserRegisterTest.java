@@ -36,7 +36,7 @@ public class UserRegisterTest {
 		    // sad test cases
 			assertFalse(object.validateLastName("Ya"));
 //			assertEquals(true,object.validateFirstName("blli"));
-			System.out.println("Testing last Name");
+			System.out.println("Testing last Name  ");
 		   
 	   }
 	   @Test
@@ -56,7 +56,7 @@ public class UserRegisterTest {
 		   assertFalse(object.validateEmail("abc123@gmail.c"));
 		   assertFalse(object.validateEmail(".abc123@abc.com"));
 		   assertFalse(object.validateEmail("abc..2002@gmail.com"));
-		   System.out.println("Testing Email number");
+		   System.out.println("Testing Email number ");
 		   
 		   
 		   
