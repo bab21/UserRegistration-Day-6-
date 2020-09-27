@@ -3,90 +3,72 @@ package UserRegistration;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.Before;
-
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import java.util.Arrays;
 import com.capgemini.UserRegistration;
 
+
+@RunWith(Parameterized.class)
 public class UserRegisterTest {
-	  UserRegistration object;
-	   @Before
+	  private String email;
+	  private boolean validate_email_result;
+	  private UserRegistration object;
+	  
+	  @Before
 	   public void before() {
 		   object=new UserRegistration();
 	   }
+	   
+	 public UserRegisterTest(String email,boolean validate_email_result){
+		  
+		  this.email=email;
+		  this.validate_email_result=validate_email_result;
+	  }
+	  
+	  
+	   @Parameterized.Parameters
+	   public static Collection input() {
+		   return Arrays.asList(new Object[][]{
+			   { "abc@yahoo.com",true},
+			   {"abc@.com",false},
+			   {"abc.100@yahoo.com",true},
+			   {"ab+100@yahoo.com",true},
+			   {"abc@.com",false},
+			   {"abc..2002@gmail.com",false},
+			   {".abc123@abc.com",false},
+			   {"ab+100@yahoo.com",true},
+			   {"abc+100@gmail.com",true},
+			   {"abc-100@abc.net",true},
+			   {"abc@gmail.com.com",true},
+			   {"abc@gmail.a",false},
+			   {"abc()*@gmail.com",false},
+			   {"abc@1.com",true},
+			   {"abc.100@abc.com.au", true},
+			   {"abc..2002@gmail.com",false},
+			   {"abc.@gmail.com",false},
+			   {"abc@gmail.com.1a",false},
+			   {"abc@%*.com",false},
+			   {"abc()*@gmail.com",false},
+			   {"abcd..2002@gmail.com",false}
+			   
+			   });
+		   
+	   }
 	
 
-	   @Test
-	   public void testFirstName() {
-		
-		   //happy test cases..
-		assertTrue(object.validateFirstName("Babli"));
-		assertTrue(object.validateFirstName("Babliygh"));
-		  // sad test cases
-		assertFalse(object.validateFirstName("babli"));
-		assertFalse(object.validateFirstName("bi"));
-//		assertEquals(true,object.validateFirstName("blli"));
-		System.out.println("Testing first Name");
-		
-	   }
-	   @Test
-	   public void testLastName() {
-		 //happy test cases..
-		    assertTrue(object.validateLastName("Yadav"));
-		    // sad test cases
-			assertFalse(object.validateLastName("Ya"));
-//			assertEquals(true,object.validateFirstName("blli"));
-			System.out.println("Testing last Name  ");
-		   
-	   }
+
 	   @Test
 	   public void testEmail() {
-		   //happy test cases..
-		   assertTrue(object.validateEmail("abc@yahoo.com"));
-		   assertTrue(object.validateEmail("abc-100@yahoo.com"));
-		   assertTrue(object.validateEmail("abc-100@yahoo.com"));
-		   assertTrue(object.validateEmail("abc.100@yahoo.com"));
-		   assertTrue(object.validateEmail("abc111@abc.com"));
-		   assertTrue(object.validateEmail("abc@1.com"));
-		   assertTrue(object.validateEmail("abc@gmail.com"));
-		   assertTrue(object.validateEmail("ab+100@yahoo.com"));
 		   
-		   //sad test cases.....
-		   assertFalse(object.validateEmail("abc@.com"));
-		   assertFalse(object.validateEmail("abc123@gmail.c"));
-		   assertFalse(object.validateEmail(".abc123@abc.com"));
-		   assertFalse(object.validateEmail("abc..2002@gmail.com"));
-		   System.out.println("Testing Email number ");
-		   
-		   
-		   
+		   System.out.println("validating email");
+		   assertEquals(validate_email_result,object.validateEmail(email));
 	   }
-	   @Test
-	   public void testPhoneNumber() {
-		   //happy test cases
-		   assertTrue(object.validatePhoneNumber("98 9876543210"));
-		   assertTrue(object.validatePhoneNumber("79 9876543210"));
-		   assertTrue(object.validatePhoneNumber("86 9876543210"));
-		   
-		   // sad test cases
-		   assertFalse(object.validatePhoneNumber("9 9876543210"));
-		   assertFalse(object.validatePhoneNumber("999876543210"));
-		   assertFalse(object.validatePhoneNumber("9 987654321089"));
-		   System.out.println("Testing phone number");
-		   
-		   
-	   }
-	   @Test
-	   public void testPassword() {
-		 //happy test cases
-		   assertTrue(object.validatePassword("babjjj@123AB"));
-		// sad test cases
-		   assertFalse(object.validatePassword("babjjj@123aa"));
-		   assertFalse(object.validatePassword("babjjj@asdf"));
-		   
-		   System.out.println("Testing Password number");
-		   
-	   }
+//	   
 	
 
 }
