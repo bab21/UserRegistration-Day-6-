@@ -10,65 +10,199 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import java.util.Arrays;
+
+import com.capgemini.InvalidInputException;
 import com.capgemini.UserRegistration;
 
-
-@RunWith(Parameterized.class)
 public class UserRegisterTest {
-	  private String email;
-	  private boolean validate_email_result;
-	  private UserRegistration object;
-	  
-	  @Before
+	UserRegistration object;
+	   @Before
 	   public void before() {
 		   object=new UserRegistration();
 	   }
-	   
-	 public UserRegisterTest(String email,boolean validate_email_result){
-		  
-		  this.email=email;
-		  this.validate_email_result=validate_email_result;
-	  }
-	  
-	  
-	   @Parameterized.Parameters
-	   public static Collection input() {
-		   return Arrays.asList(new Object[][]{
-			   { "abc@yahoo.com",true},
-			   {"abc@.com",false},
-			   {"abc.100@yahoo.com",true},
-			   {"ab+100@yahoo.com",true},
-			   {"abc@.com",false},
-			   {"abc..2002@gmail.com",false},
-			   {".abc123@abc.com",false},
-			   {"ab+100@yahoo.com",true},
-			   {"abc+100@gmail.com",true},
-			   {"abc-100@abc.net",true},
-			   {"abc@gmail.com.com",true},
-			   {"abc@gmail.a",false},
-			   {"abc()*@gmail.com",false},
-			   {"abc@1.com",true},
-			   {"abc.100@abc.com.au", true},
-			   {"abc..2002@gmail.com",false},
-			   {"abc.@gmail.com",false},
-			   {"abc@gmail.com.1a",false},
-			   {"abc@%*.com",false},
-			   {"abc()*@gmail.com",false},
-			   {"abcd..2002@gmail.com",false}
-			   
-			   });
-		   
-	   }
 	
-
 
 	   @Test
-	   public void testEmail() {
-		   
-		   System.out.println("validating email");
-		   assertEquals(validate_email_result,object.validateEmail(email));
+	   public void testFirstName1() {
+		   try {
+		      assertTrue(object.validateFirstName("Babli"));		      
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
 	   }
-//	   
-	
-
+	   
+	   @Test
+	   public void testFirstName2() {
+		   try {
+		      assertTrue(object.validateFirstName("babliiii"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+	   }
+	   
+	   @Test
+	   public void testFirstName3() {
+		   try {
+		      assertTrue(object.validateFirstName("ba"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+	   }
+	   
+	   
+	   @Test
+	   public void testLastName1() {
+		    
+		   try {
+			//happy test cases..
+		    assertTrue(object.validateLastName("Yahdshdsdhh"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   } 
+	   }
+	   @Test
+	   public void testLastName2() {
+		    
+		   try {
+		    // sad test cases
+			assertFalse(object.validateLastName("Ya"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   } 
+	   }
+	   
+	   @Test
+	   public void testEmail1() {
+		   try {
+		   //happy test cases..
+		   assertTrue(object.validateEmail("abc@yahoo.com"));  
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+		   
+		   
+		   
+	   }
+	   @Test
+	   public void testEmail2() {
+		   try {
+		   //happy test cases..
+		   assertTrue(object.validateEmail("abc-100@yahoo.com"));
+		   
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }   
+	   }
+	   @Test
+	   public void testEmail3() {
+		   try {
+		   
+		   
+		   //sad test cases.....
+		   assertFalse(object.validateEmail("abc@.com"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }   
+	   }
+	   @Test
+	   public void testEmail4() {
+		   try {
+		   assertFalse(object.validateEmail("abc123@gmail.c"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+	   }
+	   @Test
+	   public void testEmail5() {
+		   try {
+		   assertFalse(object.validateEmail("abc..2002@gmail.com"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }  
+	   }
+	   @Test
+	   public void testPhoneNumber1() {
+		   try {
+		   //happy test cases
+		   assertTrue(object.validatePhoneNumber("98 9876543210"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+	   }
+	   @Test
+	   public void testPhoneNumber2() {
+		   try {
+		   assertFalse(object.validatePhoneNumber("9 9876543210"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }  
+	   }
+	   @Test
+	   public void testPhoneNumber3() {
+		   try {
+		   assertFalse(object.validatePhoneNumber("999876543210"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+	   }
+	   @Test
+	   public void testPassword1() {
+		 
+		   try {
+		   assertTrue(object.validatePassword("babjjj@123AB"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   } 
+	   }
+	   @Test
+	   public void testPassword2() {
+		 
+		   try {
+		   assertFalse(object.validatePassword("babjjj@123aa"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }
+	   }
+	   @Test
+	   public void testPassword3() {
+		 
+		   try {
+		   
+		   assertFalse(object.validatePassword("babjjj@asdf"));
+		   }
+		   catch(InvalidInputException e) {
+			   System.out.println("Type of invalid input : "+e.type);
+			   System.out.println(e.getMessage());
+		   }  
+	   }
 }
